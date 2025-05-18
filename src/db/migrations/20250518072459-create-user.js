@@ -2,9 +2,10 @@ export default {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("users", {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       username: {
         type: Sequelize.STRING(50),
@@ -42,7 +43,6 @@ export default {
       },
     });
   },
-
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("users");
   },

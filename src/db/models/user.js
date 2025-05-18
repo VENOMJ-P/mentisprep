@@ -1,15 +1,14 @@
-// models/user.model.js
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
+import bcrypt from "bcrypt";
 
-export default (sequelize) => {
-  const User = sequelize.define(
-    "User",
+const SALT = 10;
+
+export default function (sequelize) {
+  class User extends Model {
+    static associate(models) {}
+  }
+  User.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
       username: {
         type: DataTypes.STRING(50),
         allowNull: false,
@@ -46,6 +45,7 @@ export default (sequelize) => {
       },
     },
     {
+      sequelize,
       timestamps: true,
       paranoid: true,
       modelName: "User",
@@ -53,5 +53,10 @@ export default (sequelize) => {
     }
   );
 
+  User.beforeCreate((user) => {
+    const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+    user.password = encryptedPassword;
+  });
+
   return User;
-};
+}
