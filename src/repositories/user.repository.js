@@ -7,7 +7,6 @@ class UserRepository {
   }
 
   async findByUsername(username) {
-    console.log(db);
     return await User.findOne({
       where: { username },
       raw: true,

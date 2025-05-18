@@ -22,7 +22,6 @@ export const authenticate = async (req, res, next) => {
   try {
     // Extract token
     const token = extractToken(req);
-    console.log(token);
 
     if (!token) {
       throw new AppError("Authentication required", 401);

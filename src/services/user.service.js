@@ -79,17 +79,12 @@ class UserService {
 
   async verifyToken(token) {
     try {
-      // Verify JWT
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded);
 
-      // Get user
       const user = await this.userRepository.findById(decoded.id);
       if (!user) {
         throw new AppError("User not found", 404);
       }
-
-      console.log(user);
 
       return {
         id: user.id,
@@ -99,8 +94,7 @@ class UserService {
       if (error instanceof AppError) {
         throw error;
       }
-      throw new AppError(error, 404);
-      //   throw new AppError("Invalid or expired token", 401);
+      throw new AppError("Invalid or expired token", 401);
     }
   }
 
@@ -108,7 +102,6 @@ class UserService {
     try {
       return bcrypt.compareSync(userInputPlainPassword, encryptedPassword);
     } catch (error) {
-      console.log("Something went wrong in password comparison");
       throw new AppError("Something went wrong in password comparison", 500);
     }
   }
