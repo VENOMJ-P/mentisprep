@@ -27,9 +27,6 @@ class UserController {
 
   logout = async (req, res) => {
     const token = req.token;
-    await this.userService.logout(token);
-
-    // Clear cookie
     res.clearCookie("auth_token");
 
     return successResponse(res, 200, "Logout successful");
